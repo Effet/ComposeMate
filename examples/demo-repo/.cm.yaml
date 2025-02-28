@@ -1,0 +1,25 @@
+apps:
+  - id: redis-example
+    path: redis
+    tasks:
+      - id: backup-redis
+        cron: "*/1 * * * *"
+        steps:
+          - type: "compose_run" # run new container once from compose
+            compose_service: "backup"
+      - id: backup-redis-another-way
+        cron: "*/2 * * * *"
+        steps:
+          - type: "compose_command"
+            compose_service: "redis" # directly run command in redis service
+            command: [ "redis-cli", "-h", "redis", "save" ]
+  - id: web-example
+    path: webapp
+    tasks:
+      - id: backup-data
+        cron: "*/1 * * * *"
+        steps:
+          - type: "rest_api"
+            compose_service: "web" # if present, will call rest api in web service
+            endpoint: "http://localhost:8000/backup"
+            method: "GET"

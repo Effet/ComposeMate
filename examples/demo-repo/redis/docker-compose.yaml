@@ -1,0 +1,20 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis_test
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+  
+  backup:
+    image: redis:alpine
+    volumes:
+      - redis-data:/data
+    command: [ "redis-cli", "-h", "redis", "save" ]
+    profiles:
+      - donotstart
+
+volumes:
+  redis-data:
