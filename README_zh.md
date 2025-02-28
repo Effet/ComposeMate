@@ -17,7 +17,7 @@
 pip install compose-mate
 ```
 
-## ��用方法
+## 使用方法
 
 运行应用：
 
