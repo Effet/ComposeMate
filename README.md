@@ -32,22 +32,12 @@ docker run -d \
   ghcr.io/effet/composemate:main
 ```
 
-### Docker Volumes
-
-- `/var/run/docker.sock`: Required for Docker API access
-- `/repo`: Your repository containing docker-compose files
-- `/data`: State and log storage
-
-### Environment Variables
-
-- `TZ`: Set timezone (default: UTC)
-
-### Docker Compose Example
+Run Compose Mate using Docker Compose:
 
 ```yaml
 services:
   compose-mate:
-    build: .
+    image: ghcr.io/effet/composemate:main
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./repo:/repo
@@ -57,6 +47,16 @@ services:
     environment:
       - TZ=Asia/Shanghai
 ```
+
+### Docker Volumes
+
+- `/var/run/docker.sock`: Required for Docker API access
+- `/repo`: Your repository containing docker-compose files
+- `/data`: State and log storage
+
+### Environment Variables
+
+- `TZ`: Set timezone (default: UTC)
 
 ## Configuration
 

@@ -30,20 +30,12 @@ docker run -d \
   ghcr.io/effet/composemate:main
 ```
 
-### Docker 挂载卷
-- `/var/run/docker.sock`：用于访问 Docker API
-- `/repo`：存放包含 docker-compose.yml 的代码仓库
-- `/data`：用于存储状态数据和日志
-
-### 环境变量
-- `TZ`：设置时区（默认：UTC）
-
-### Docker Compose 示例
+使用 Docker Compose 运行 Compose Mate：
 
 ```yaml
 services:
   compose-mate:
-    build: .
+    image: ghcr.io/effet/composemate:main
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./repo:/repo
@@ -53,6 +45,14 @@ services:
     environment:
       - TZ=Asia/Shanghai
 ```
+
+### Docker 挂载卷
+- `/var/run/docker.sock`：用于访问 Docker API
+- `/repo`：存放包含 docker-compose.yml 的代码仓库
+- `/data`：用于存储状态数据和日志
+
+### 环境变量
+- `TZ`：设置时区（默认：UTC）
 
 ## 配置
 
