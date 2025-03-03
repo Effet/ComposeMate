@@ -29,7 +29,7 @@ docker run -d \
   -v /path/to/your/repo:/repo \
   -v /path/to/state:/data \
   -p 8080:8080 \
-  compose-mate
+  ghcr.io/effet/composemate:main
 ```
 
 ### Docker Volumes
