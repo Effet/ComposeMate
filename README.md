@@ -1,30 +1,61 @@
 # Compose Mate
 
-A Docker Compose management tool that helps you automate container operations and schedule tasks.
+An enhanced Docker Compose companion tool that provides **automatic updates** and **scheduled tasks** without altering the original `docker-compose.yml` management workflow.
 
 [中文文档](README_zh.md)
 
 ## Features
 
-- Automated Docker Compose management
-- File change monitoring and auto-reconciliation
-- Scheduled tasks execution with cron syntax
-- Web interface for monitoring and control
-- Support for multiple applications and tasks
-- Logging system with rotation
+### Preserves Existing Workflow
+- Continue managing services using `docker-compose.yml`.
+- Users can still manually run `docker compose` commands.
+- Automatically runs `docker compose up` when changes are detected, keeping services up to date.
 
-## Installation
+### Enhanced Capabilities
+- **File Change Monitoring**: Detects changes in `docker-compose.yml` and related files, automatically applying updates.
+- **Cron Job Support**: Adds scheduled task capabilities to `docker compose` through additional configuration.
+- **Web Interface**: Enables visual management and manual task execution.
+- **Multi-App Support**: Manages multiple `docker-compose` projects simultaneously.
+- **Logging System**: Tracks task execution history with log rotation support.
+
+## Installation (Docker-In-Docker)
+
+Run Compose Mate using Docker:
 
 ```bash
-pip install compose-mate
+docker run -d \
+  --name compose-mate \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /path/to/your/repo:/repo \
+  -v /path/to/state:/data \
+  -p 8080:8080 \
+  compose-mate
 ```
 
-## Usage
+### Docker Volumes
 
-Run the application:
+- `/var/run/docker.sock`: Required for Docker API access
+- `/repo`: Your repository containing docker-compose files
+- `/data`: State and log storage
 
-```bash
-compose-mate --repo-path /path/to/repo [--state-path /path/to/state] [--port 8080]
+### Environment Variables
+
+- `TZ`: Set timezone (default: UTC)
+
+### Docker Compose Example
+
+```yaml
+services:
+  compose-mate:
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./repo:/repo
+      - ./data:/data
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
 ```
 
 ## Configuration
@@ -67,12 +98,6 @@ Supports three types of task steps:
    endpoint: "http://localhost/api"
    method: "GET"
    ```
-
-## Project Structure
-
-- `.cm-state/`: State and log files
-- `logs/`: Application and task logs
-- `state.json`: Current state data
 
 ## Web Interface
 

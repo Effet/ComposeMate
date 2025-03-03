@@ -1,33 +1,62 @@
 # Compose Mate
 
-一个 Docker Compose 管理工具，帮助您自动化容器操作和调度任务。
+一个增强型 Docker Compose 伴侣工具，在不改变原有 `docker-compose.yml` 管理方式的前提下，提供 **自动更新** 和 **计划任务** 功能。
 
 ## 功能特点
 
-- 自动化 Docker Compose 管理
-- 文件变更监控和自动协调
-- 使用 cron 语法执行计划任务
-- Web 界面进行监控和控制
-- 支持多应用和任务管理
-- 日志系统（含日志轮转）
+### 保持原有工作流程
+- 继续使用 `docker-compose.yml` 进行服务管理。
+- 仍然可以手动运行 `docker compose` 命令。
+- 监听 `docker-compose.yml` 及相关文件的变更，并自动执行 `docker compose up`，保持服务最新。
 
-## 安装
+### 增强功能
+- **文件变更监控**：自动检测 `docker-compose.yml` 及相关文件的更改，并自动应用更新。
+- **Cron 任务支持**：通过额外的配置，为 `docker compose` 增加定时任务能力。
+- **Web 界面**：提供可视化管理和手动任务执行功能。
+- **多应用支持**：同时管理多个 `docker-compose` 项目。
+- **日志系统**：记录任务执行历史，并支持日志轮转。
+
+## 安装（Docker-In-Docker）
+
+使用 Docker 运行 Compose Mate：
 
 ```bash
-pip install compose-mate
+docker run -d \
+  --name compose-mate \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /path/to/your/repo:/repo \
+  -v /path/to/state:/data \
+  -p 8080:8080 \
+  compose-mate
 ```
 
-## 使用方法
+### Docker 挂载卷
+- `/var/run/docker.sock`：用于访问 Docker API
+- `/repo`：存放包含 docker-compose.yml 的代码仓库
+- `/data`：用于存储状态数据和日志
 
-运行应用：
+### 环境变量
+- `TZ`：设置时区（默认：UTC）
 
-```bash
-compose-mate --repo-path /path/to/repo [--state-path /path/to/state] [--port 8080]
+### Docker Compose 示例
+
+```yaml
+services:
+  compose-mate:
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./repo:/repo
+      - ./data:/data
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Asia/Shanghai
 ```
 
-## 配置说明
+## 配置
 
-在您的代码仓库中创建 `.cm.yaml` 配置文件：
+在您的仓库中创建 `.cm.yaml` 配置文件：
 
 ```yaml
 apps:
@@ -43,7 +72,7 @@ apps:
 
 ### 任务类型
 
-支持三种任务步骤类型：
+支持以下三种任务步骤：
 
 1. `compose_run`：运行一次性容器
    ```yaml
@@ -66,15 +95,9 @@ apps:
    method: "GET"
    ```
 
-## 项目结构
-
-- `.cm-state/`：状态和日志文件
-- `logs/`：应用和任务日志
-- `state.json`：当前状态数据
-
 ## Web 界面
 
-访问 `http://localhost:8080` 可以：
+访问 `http://localhost:8080` 以：
 - 查看应用和任务状态
 - 触发手动协调
 - 查看任务日志
