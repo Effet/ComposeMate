@@ -12,7 +12,7 @@ from watchdog.observers import Observer
 
 from compose_mate.core.executor import TaskExecutor
 from compose_mate.core.models import AppConfig, State, AppState, TaskState
-from core.logging_utils import LogManager
+from compose_mate.core.logging_utils import LogManager
 
 
 class ConfigChangeHandler(FileSystemEventHandler):

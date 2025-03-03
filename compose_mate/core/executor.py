@@ -4,7 +4,7 @@ from pathlib import Path
 
 import requests
 
-from core.models import AppConfig, TaskConfig, StepConfig
+from compose_mate.core.models import AppConfig, TaskConfig, StepConfig
 
 
 class TaskExecutor:
