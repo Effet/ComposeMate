@@ -26,4 +26,4 @@ COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["--repo-path", "/repo", "--state-path", "/data"]
+CMD ["--repo-path", "/repo"]

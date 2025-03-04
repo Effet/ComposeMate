@@ -25,7 +25,6 @@ docker run -d \
   --name compose-mate \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /path/to/your/repo:/repo \
-  -v /path/to/state:/data \
   -p 8080:8080 \
   ghcr.io/effet/composemate:main
 ```
@@ -39,7 +38,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./repo:/repo
-      - ./data:/data
     ports:
       - "8080:8080"
     environment:
@@ -49,7 +47,6 @@ services:
 ### Docker 挂载卷
 - `/var/run/docker.sock`：用于访问 Docker API
 - `/repo`：存放包含 docker-compose.yml 的代码仓库
-- `/data`：用于存储状态数据和日志
 
 ### 环境变量
 - `TZ`：设置时区（默认：UTC）

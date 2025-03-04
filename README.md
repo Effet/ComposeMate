@@ -27,7 +27,6 @@ docker run -d \
   --name compose-mate \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /path/to/your/repo:/repo \
-  -v /path/to/state:/data \
   -p 8080:8080 \
   ghcr.io/effet/composemate:main
 ```
@@ -41,7 +40,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./repo:/repo
-      - ./data:/data
     ports:
       - "8080:8080"
     environment:
@@ -52,7 +50,6 @@ services:
 
 - `/var/run/docker.sock`: Required for Docker API access
 - `/repo`: Your repository containing docker-compose files
-- `/data`: State and log storage
 
 ### Environment Variables
 
